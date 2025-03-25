@@ -129,7 +129,7 @@
             <div id="score">Pontuação: 0</div>
         </div>
 
-        <div id="question-container" style="display:none;">
+        <div id="question-container">
             <p class="question" id="question">Qual é a música?</p>
             <div id="options-container">
                 <button class="option" onclick="checkAnswer(0)">Resposta A</button>
@@ -181,7 +181,6 @@
 
         let currentQuestionIndex = 0;
         let score = 0;
-        let audioPlayed = false;
 
         // Atualizar a pergunta e opções
         function showQuestion() {
@@ -199,11 +198,6 @@
 
         // Checar resposta e atualizar pontuação
         function checkAnswer(index) {
-            if (!audioPlayed) {
-                alert("Por favor, escute a música antes de responder!");
-                return;
-            }
-            
             const correctAnswer = questions[currentQuestionIndex].correctAnswer;
             const feedback = document.getElementById('feedback');
             
@@ -244,14 +238,7 @@
 
         // Iniciar o quiz
         window.onload = function() {
-            const audioPlayer = document.getElementById('audioPlayer');
-            audioPlayer.onplay = function() {
-                audioPlayed = false; // Resposta não pode ser dada enquanto o áudio não tocar
-            };
-            audioPlayer.onended = function() {
-                audioPlayed = true; // Agora o usuário pode responder
-                showQuestion();
-            };
+            showQuestion();
         };
     </script>
 
