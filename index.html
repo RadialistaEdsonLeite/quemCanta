@@ -1,1 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Musical</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        #quiz-container {
+            width: 50%;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .option {
+            display: block;
+            width: 80%;
+            margin: 5px auto;
+            padding: 10px;
+            border: 1px solid #333;
+            background: #ddd;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .option:hover {
+            background: #bbb;
+        }
+        #score {
+            font-size: 18px;
+            margin: 10px;
+        }
+        .feedback {
+            display: inline-block;
+            font-size: 20px;
+            margin-left: 10px;
+        }
+        .correct {
+            color: green;
+            font-weight: bold;
+        }
+        .incorrect {
+            color: red;
+            font-weight: bold;
+        }
+        #final-message {
+            display: none;
+            margin-top: 20px;
+        }
+        #final-image {
+            width: 200px;
+            display: block;
+            margin: auto;
+        }
+        .btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        #banner {
+            width: 98%;
+            max-width: 600px;
+            height: 40px;
+            margin: 10px auto;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #banner img {
+            height: 100%;
+            width: auto;
+        }
+        .audio-player-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .audio-player {
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
 
+    <div id="quiz-container">
+        <h1>Quiz Musical</h1>
+        <h3>Teste seus conhecimentos sobre música!</h3>
+        
+        <div id="banner">
+            <img id="banner-image" src="" alt="Banner Publicitário">
+        </div>
+        
+        <div id="score">
+            <!-- Player de Áudio Visível -->
+            <div class="audio-player-container">
+                <audio id="music-player" class="audio-player" autoplay>
+                    <source src="https://radialistaedsonleite.github.io/quemCanta/WutheringHeights_KateBush.mp3" type="audio/mp3">
+                </audio>
+                <span>Pontuação: <span id="points">0</span></span> 
+                <span id="feedback" class="feedback"></span>
+            </div>
+        </div>
+        
+        <div id="question-container">
+            <p class="question" id="question-text"></p>
+            <div id="options"></div>
+        </div>
+
+        <div id="final-message">
+            <h2 id="message-text"></h2>
+            <img id="final-image" src="" alt="Resultado">
+            <br>
+            <a href="https://www.palavraeacao.com.br" class="btn">Sair do Jogo</a>
+            <a href="https://radialistaedsonleite.github.io/jogos-HTML/" class="btn">Voltar para Opções</a>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Quem canta a música 'Bohemian Rhapsody'?",
+                options: [
+                    { text: "Queen", correct: true },
+                    { text: "The Beatles", correct: false },
+                    { text: "Elton John", correct: false }
+                ],
+                image: "https://github.com/seuusuario/seurepositorio/blob/main/queen.jpg?raw=true",
+                message: "Parabéns! Você acertou sobre Queen!"
+            },
+            {
+                question: "Quem é o cantor da música 'Thriller'?",
+                options: [
+                    { text: "Prince", correct: false },
+                    { text: "Michael Jackson", correct: true },
+                    { text: "Madonna", correct: false }
+                ],
+                image: "https://github.com/seuusuario/seurepositorio/blob/main/michael.jpg?raw=true",
+                message: "Isso mesmo! Thriller é de Michael Jackson!"
+            },
+            {
+                question: "Quem canta 'Like a Rolling Stone'?",
+                options: [
+                    { text: "Bob Dylan", correct: true },
+                    { text: "The Rolling Stones", correct: false },
+                    { text: "Eric Clapton", correct: false }
+                ],
+                image: "https://github.com/seuusuario/seurepositorio/blob/main/dylan.jpg?raw=true",
+                message: "Boa! Essa é uma das mais famosas do Bob Dylan!"
+            },
+            {
+                question: "Quem canta 'Someone Like You'?",
+                options: [
+                    { text: "Adele", correct: true },
+                    { text: "Celine Dion", correct: false },
+                    { text: "Whitney Houston", correct: false }
+                ],
+                image: "https://github.com/seuusuario/seurepositorio/blob/main/adele.jpg?raw=true",
+                message: "Muito bem! Adele emociona com essa canção!"
+            }
+        ];
+
+        const bannerImages = [
+            "https://radialistaedsonleite.github.io/propagandas/banner1.jpg",
+            "https://radialistaedsonleite.github.io/propagandas/banner2.jpg",
+            "https://radialistaedsonleite.github.io/propagandas/banner3.jpg"
+        ];
+
+        const questionText = document.getElementById("question-text");
+        const optionsContainer = document.getElementById("options");
+        const pointsDisplay = document.getElementById("points");
+        const feedbackDisplay = document.getElementById("feedback");
+        const finalMessage = document.getElementById("final-message");
+        const messageText = document.getElementById("message-text");
+        const finalImage = document.getElementById("final-image");
+        const bannerImage = document.getElementById("banner-image");
+
+        let currentQuestionIndex = 0;
+        let score = localStorage.getItem("quizScore") ? parseInt(localStorage.getItem("quizScore")) : 0;
+
+        function showQuestion() {
+            feedbackDisplay.textContent = "";
+            if (currentQuestionIndex >= questions.length) {
+                showFinalMessage();
+                return;
+            }
+            
+            let currentQuestion = questions[currentQuestionIndex];
+            questionText.textContent = currentQuestion.question;
+            optionsContainer.innerHTML = "";
+
+            currentQuestion.options.forEach(option => {
+                let button = document.createElement("button");
+                button.textContent = option.text;
+                button.classList.add("option");
+                button.onclick = () => selectAnswer(option.correct);
+                optionsContainer.appendChild(button);
+            });
+
+            // Tocar a música automaticamente ao exibir a pergunta
+            const musicPlayer = document.getElementById("music-player");
+            musicPlayer.play();
+        }
+
+        function selectAnswer(isCorrect) {
+            if (isCorrect) {
+                score += 10;
+                feedbackDisplay.textContent = "✔";
+                feedbackDisplay.className = "feedback correct";
+            } else {
+                score -= 5;
+                feedbackDisplay.textContent = "✖";
+                feedbackDisplay.className = "feedback incorrect";
+            }
+            
+            localStorage.setItem("quizScore", score);
+            pointsDisplay.textContent = score;
+
+            setTimeout(() => {
+                currentQuestionIndex++;
+                showQuestion();
+            }, 1000);
+        }
+
+        function showFinalMessage() {
+            questionText.style.display = "none";
+            optionsContainer.style.display = "none";
+            finalMessage.style.display = "block";
+
+            let bestQuestion = questions.reduce((best, question) => {
+                return score >= 30 && question.correct ? question : best;
+            });
+
+            messageText.textContent = bestQuestion.message;
+            finalImage.src = bestQuestion.image;
+        }
+
+        function showRandomBanner() {
+            const randomIndex = Math.floor(Math.random() * bannerImages.length);
+            bannerImage.src = bannerImages[randomIndex];
+        }
+
+        // Exibe o banner aleatório assim que a página carrega
+        showRandomBanner();
+
+        pointsDisplay.textContent = score; // Atualiza a pontuação inicial
+        showQuestion();
+    </script>
+
+</body>
+</html>
