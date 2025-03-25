@@ -98,6 +98,14 @@
         }
         .audio-player {
             margin-right: 20px;
+            width: 300px;
+        }
+        .music-link {
+            font-size: 14px;
+            color: #007BFF;
+            text-decoration: none;
+            margin-top: 5px;
+            display: block;
         }
     </style>
 </head>
@@ -105,166 +113,133 @@
 
     <div id="quiz-container">
         <h1>Quiz Musical</h1>
-        <h3>Teste seus conhecimentos sobre música!</h3>
-        
+        <h2>Teste seus conhecimentos sobre música!</h2>
+
+        <!-- Banner de propaganda -->
         <div id="banner">
-            <img id="banner-image" src="" alt="Banner Publicitário">
-        </div>
-        
-        <div id="score">
-            <!-- Player de Áudio Visível -->
-            <div class="audio-player-container">
-                <audio id="music-player" class="audio-player" autoplay>
-                    <source src="https://radialistaedsonleite.github.io/quemCanta/WutheringHeights_KateBush.mp3" type="audio/mp3">
-                </audio>
-                <span>Pontuação: <span id="points">0</span></span> 
-                <span id="feedback" class="feedback"></span>
-            </div>
-        </div>
-        
-        <div id="question-container">
-            <p class="question" id="question-text"></p>
-            <div id="options"></div>
+            <img src="https://radialistaedsonleite.github.io/propagandas/banner1.jpg" alt="Banner Publicitário">
         </div>
 
+        <!-- Player de áudio -->
+        <div class="audio-player-container">
+            <audio class="audio-player" id="audioPlayer" autoplay controls>
+                <source src="https://radialistaedsonleite.github.io/quemCanta/arquivo.mp3" type="audio/mp3">
+                Seu navegador não suporta o elemento de áudio.
+            </audio>
+            <div id="score">Pontuação: 0</div>
+        </div>
+
+        <div id="question-container">
+            <p class="question" id="question">Qual é a música?</p>
+            <div id="options-container">
+                <button class="option" onclick="checkAnswer(0)">Resposta A</button>
+                <button class="option" onclick="checkAnswer(1)">Resposta B</button>
+                <button class="option" onclick="checkAnswer(2)">Resposta C</button>
+            </div>
+            <!-- Links das músicas -->
+            <a class="music-link" id="musicLink" href="#" target="_blank">Link da música</a>
+        </div>
+
+        <!-- Feedback de resposta correta/errada -->
+        <div id="feedback" class="feedback"></div>
+
         <div id="final-message">
-            <h2 id="message-text"></h2>
-            <img id="final-image" src="" alt="Resultado">
-            <br>
+            <img id="final-image" src="https://radialistaedsonleite.github.io/propagandas/final_image.jpg" alt="Imagem Final">
+            <p id="final-text">Parabéns, você completou o quiz!</p>
             <a href="https://www.palavraeacao.com.br" class="btn">Sair do Jogo</a>
-            <a href="https://radialistaedsonleite.github.io/jogos-HTML/" class="btn">Voltar para Opções</a>
+            <a href="https://radialistaedsonleite.github.io/jogos-HTML/" class="btn">Voltar às Opções</a>
         </div>
     </div>
 
     <script>
         const questions = [
             {
-                question: "Quem canta a música 'Bohemian Rhapsody'?",
-                options: [
-                    { text: "Queen", correct: true },
-                    { text: "The Beatles", correct: false },
-                    { text: "Elton John", correct: false }
-                ],
-                image: "https://github.com/seuusuario/seurepositorio/blob/main/queen.jpg?raw=true",
-                message: "Parabéns! Você acertou sobre Queen!"
+                question: "Qual é a música?",
+                options: ["Música Um - Cantor Um1", "Música B - Cantor B", "Música C - Cantor C"],
+                correctAnswer: 0,
+                musicLink: "https://radialistaedsonleite.github.io/quemCanta/WutheringHeights_KateBush.mp3"
             },
             {
-                question: "Quem é o cantor da música 'Thriller'?",
-                options: [
-                    { text: "Prince", correct: false },
-                    { text: "Michael Jackson", correct: true },
-                    { text: "Madonna", correct: false }
-                ],
-                image: "https://github.com/seuusuario/seurepositorio/blob/main/michael.jpg?raw=true",
-                message: "Isso mesmo! Thriller é de Michael Jackson!"
+                question: "Qual é o cantor?",
+                options: ["Música A - Cantor A", "Música B - Cantor B", "Música C - Cantor C"],
+                correctAnswer: 1,
+                musicLink: "https://radialistaedsonleite.github.io/quemCanta/Tornero_ISantoCalifornia.mp3"
             },
             {
-                question: "Quem canta 'Like a Rolling Stone'?",
-                options: [
-                    { text: "Bob Dylan", correct: true },
-                    { text: "The Rolling Stones", correct: false },
-                    { text: "Eric Clapton", correct: false }
-                ],
-                image: "https://github.com/seuusuario/seurepositorio/blob/main/dylan.jpg?raw=true",
-                message: "Boa! Essa é uma das mais famosas do Bob Dylan!"
+                question: "De qual álbum é essa música?",
+                options: ["Álbum A", "Álbum B", "Álbum C"],
+                correctAnswer: 2,
+                musicLink: "https://radialistaedsonleite.github.io/quemCanta/Sailing_RodStewart.mp3"
             },
             {
-                question: "Quem canta 'Someone Like You'?",
-                options: [
-                    { text: "Adele", correct: true },
-                    { text: "Celine Dion", correct: false },
-                    { text: "Whitney Houston", correct: false }
-                ],
-                image: "https://github.com/seuusuario/seurepositorio/blob/main/adele.jpg?raw=true",
-                message: "Muito bem! Adele emociona com essa canção!"
+                question: "Em que ano foi lançada a música?",
+                options: ["2010", "2015", "2020"],
+                correctAnswer: 1,
+                musicLink: "https://radialistaedsonleite.github.io/quemCanta/mymistake_pholhas.mp3"
             }
         ];
-
-        const bannerImages = [
-            "https://radialistaedsonleite.github.io/propagandas/banner1.jpg",
-            "https://radialistaedsonleite.github.io/propagandas/banner2.jpg",
-            "https://radialistaedsonleite.github.io/propagandas/banner3.jpg"
-        ];
-
-        const questionText = document.getElementById("question-text");
-        const optionsContainer = document.getElementById("options");
-        const pointsDisplay = document.getElementById("points");
-        const feedbackDisplay = document.getElementById("feedback");
-        const finalMessage = document.getElementById("final-message");
-        const messageText = document.getElementById("message-text");
-        const finalImage = document.getElementById("final-image");
-        const bannerImage = document.getElementById("banner-image");
 
         let currentQuestionIndex = 0;
-        let score = localStorage.getItem("quizScore") ? parseInt(localStorage.getItem("quizScore")) : 0;
+        let score = 0;
 
+        // Atualizar a pergunta e opções
         function showQuestion() {
-            feedbackDisplay.textContent = "";
-            if (currentQuestionIndex >= questions.length) {
-                showFinalMessage();
-                return;
-            }
-            
-            let currentQuestion = questions[currentQuestionIndex];
-            questionText.textContent = currentQuestion.question;
-            optionsContainer.innerHTML = "";
-
-            currentQuestion.options.forEach(option => {
-                let button = document.createElement("button");
-                button.textContent = option.text;
-                button.classList.add("option");
-                button.onclick = () => selectAnswer(option.correct);
-                optionsContainer.appendChild(button);
+            const question = questions[currentQuestionIndex];
+            document.getElementById('question').textContent = question.question;
+            const options = document.querySelectorAll('.option');
+            options.forEach((button, index) => {
+                button.textContent = question.options[index];
             });
 
-            // Tocar a música automaticamente ao exibir a pergunta
-            const musicPlayer = document.getElementById("music-player");
-            musicPlayer.play();
+            // Atualizar o link da música
+            document.getElementById('musicLink').href = question.musicLink;
+            document.getElementById('musicLink').textContent = "Escute a música aqui";
         }
 
-        function selectAnswer(isCorrect) {
-            if (isCorrect) {
+        // Checar resposta e atualizar pontuação
+        function checkAnswer(index) {
+            const correctAnswer = questions[currentQuestionIndex].correctAnswer;
+            const feedback = document.getElementById('feedback');
+            
+            if (index === correctAnswer) {
                 score += 10;
-                feedbackDisplay.textContent = "✔";
-                feedbackDisplay.className = "feedback correct";
+                feedback.textContent = "Resposta correta!";
+                feedback.classList.add('correct');
+                feedback.classList.remove('incorrect');
             } else {
                 score -= 5;
-                feedbackDisplay.textContent = "✖";
-                feedbackDisplay.className = "feedback incorrect";
+                feedback.textContent = "Resposta errada!";
+                feedback.classList.add('incorrect');
+                feedback.classList.remove('correct');
             }
-            
-            localStorage.setItem("quizScore", score);
-            pointsDisplay.textContent = score;
 
-            setTimeout(() => {
-                currentQuestionIndex++;
-                showQuestion();
-            }, 1000);
+            // Atualizar a pontuação
+            document.getElementById('score').textContent = "Pontuação: " + score;
+
+            // Exibir o próximo questionário
+            currentQuestionIndex++;
+
+            // Se terminar o quiz, mostrar o resultado final
+            if (currentQuestionIndex === questions.length) {
+                showFinalMessage();
+            } else {
+                setTimeout(() => {
+                    feedback.textContent = "";
+                    showQuestion();
+                }, 1000);
+            }
         }
 
+        // Mostrar mensagem final
         function showFinalMessage() {
-            questionText.style.display = "none";
-            optionsContainer.style.display = "none";
-            finalMessage.style.display = "block";
-
-            let bestQuestion = questions.reduce((best, question) => {
-                return score >= 30 && question.correct ? question : best;
-            });
-
-            messageText.textContent = bestQuestion.message;
-            finalImage.src = bestQuestion.image;
+            document.getElementById('question-container').style.display = 'none';
+            document.getElementById('final-message').style.display = 'block';
         }
 
-        function showRandomBanner() {
-            const randomIndex = Math.floor(Math.random() * bannerImages.length);
-            bannerImage.src = bannerImages[randomIndex];
-        }
-
-        // Exibe o banner aleatório assim que a página carrega
-        showRandomBanner();
-
-        pointsDisplay.textContent = score; // Atualiza a pontuação inicial
-        showQuestion();
+        // Iniciar o quiz
+        window.onload = function() {
+            showQuestion();
+        };
     </script>
 
 </body>
