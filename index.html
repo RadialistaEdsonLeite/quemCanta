@@ -9,40 +9,59 @@
             font-family: Arial, sans-serif;
             text-align: center;
             background-color: #f4f4f4;
-        }
+                  }
+      #banner img {
+    max-width: 100%;
+    height: auto; /* Para manter a proporção original da imagem */
+    display: block; /* Remove o espaço abaixo da imagem, caso haja */
+    margin: 0 auto; /* Centraliza a imagem no container */
+}
+
         #quiz-container {
-            width: 50%;
+            width:98%;
             margin: auto;
-            padding: 20px;
+            padding: 5px;
             background: white;
+            color: darkblue;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .question {
-            font-size: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: red;
             margin-bottom: 10px;
         }
         .option {
             display: block;
-            width: 80%;
+            width: 90%;
             margin: 5px auto;
             padding: 10px;
             border: 1px solid #333;
-            background: #ddd;
+            color: white;
+            background: darkblue;
             cursor: pointer;
+            font-size: 20px;
             border-radius: 5px;
         }
+      
         .option:hover {
-            background: #bbb;
+            background: darkblue;
+        }
+        #status-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
         }
         #score {
             font-size: 18px;
-            margin: 10px;
+            margin: 0 10px;
         }
-        .feedback {
-            display: inline-block;
+        #feedback {
             font-size: 20px;
             margin-left: 10px;
+            transition: opacity 0.5s;
         }
         .correct {
             color: green;
@@ -57,132 +76,170 @@
             margin-top: 20px;
         }
         #final-image {
-            width: 200px;
+            width: 300px;
             display: block;
             margin: auto;
         }
         .btn {
             display: inline-block;
             margin: 10px;
-            padding: 10px 20px;
-            background-color: #007BFF;
+            padding: 15px 20px;
+            background-color: darkblue;
             color: white;
             border: none;
+            font-size: 22px;
             cursor: pointer;
             border-radius: 5px;
             text-decoration: none;
         }
         .btn:hover {
-            background-color: #0056b3;
+            background-color: darkblue;
         }
-        #banner {
-            width: 98%;
-            max-width: 600px;
-            height: 40px;
-            margin: 10px auto;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .artist-info {
+            text-align: left;
+            margin-top: 20px;
         }
-        #banner img {
-            height: 100%;
-            width: auto;
-        }
-        .audio-player-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 10px;
-        }
-        .audio-player {
-            margin-right: 20px;
+        .artist-info img {
             width: 300px;
-        }
-        .music-link {
-            font-size: 14px;
-            color: #007BFF;
-            text-decoration: none;
-            margin-top: 5px;
+            height: 300px;
             display: block;
+            margin: auto;
         }
+        .artist-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+     .artist-item {
+    max-width: 98%;
+    margin: 0 auto; /* Centraliza a div dentro do contêiner pai */
+    text-align: center; /* Centraliza os elementos dentro da div, incluindo a imagem */
+}
+
+.artist-item img {
+    max-width: 100%; /* A imagem vai ocupar 100% da largura da div */
+    height: auto; /* Mantém a proporção da imagem */
+    display: inline-block; /* A imagem vai se comportar como um bloco inline, o que facilita a centralização */
+}
+
+
     </style>
 </head>
 <body>
-
+  <div id="banner">
+    <img src="https://github.com/RadialistaEdsonLeite/propagandas/blob/main/banner3.jpg" alt="Banner Publicitário">
+    </div>
+  
     <div id="quiz-container">
         <h1>Quiz Musical</h1>
         <h2>Teste seus conhecimentos sobre música!</h2>
 
-        <!-- Banner de propaganda -->
-        <div id="banner">
-            <img src="https://radialistaedsonleite.github.io/propagandas/banner1.jpg" alt="Banner Publicitário">
-        </div>
+        <!-- Botão de Início -->
+        <button id="start-btn" class="btn" onclick="startQuiz()">Clique agora para começar o Desafio!</button>
 
-        <!-- Player de áudio -->
-        <div class="audio-player-container">
+        <div id="status-container" style="display: none;">
             <audio class="audio-player" id="audioPlayer" controls>
-                <source src="https://radialistaedsonleite.github.io/quemCanta/arquivo.mp3" type="audio/mp3">
+                <source src="" type="audio/mp3">
                 Seu navegador não suporta o elemento de áudio.
             </audio>
             <div id="score">Pontuação: 0</div>
-        </div>
-
-        <div id="question-container">
+            <div id="feedback"></div>
+        </div>    
+                
+            <div id="question-container" style="display: none;">
             <p class="question" id="question">Qual é a música?</p>
             <div id="options-container">
                 <button class="option" onclick="checkAnswer(0)">Resposta A</button>
                 <button class="option" onclick="checkAnswer(1)">Resposta B</button>
                 <button class="option" onclick="checkAnswer(2)">Resposta C</button>
-            </div>
-            <!-- Links das músicas -->
-            <a class="music-link" id="musicLink" href="#" target="_blank">Link da música</a>
-        </div>
+                </div>
+        </div>    
 
-        <!-- Feedback de resposta correta/errada -->
-        <div id="feedback" class="feedback"></div>
-
-        <div id="final-message">
-            <img id="final-image" src="https://radialistaedsonleite.github.io/propagandas/final_image.jpg" alt="Imagem Final">
-            <p id="final-text">Parabéns, você completou o quiz!</p>
-            <a href="https://www.palavraeacao.com.br" class="btn">Sair do Jogo</a>
-            <a href="https://radialistaedsonleite.github.io/jogos-HTML/" class="btn">Voltar às Opções</a>
+        <div id="artist-info-container" style="display: none;">
+            <!-- Informações do artista serão exibidas aqui ao final do jogo -->
         </div>
     </div>
+  <div id="final-message" style="display: none;">
+        <a href="https://www.palavraeacao.com.br" class="btn">Sair do Jogo</a>
+    <a href="https://radialistaedsonleite.github.io/jogos-HTML/" class="btn">Voltar às Opções</a>
+    <p id="final-text">↓ Compartilhe com amigos! ↓</p>
+    
+    <!-- Novo botão de compartilhamento -->
+    <button class="btn" id="share-btn" onclick="shareGame()">Compartilhar com Amigos</button>
+</div>
 
-    <script>
+   <script>
+    // Função de compartilhamento
+    function shareGame() {
+        const gameUrl = window.location.href; // Obtém a URL atual do jogo
+        const shareText = 'Desafio Qual é a Música? Venha testar seus conhecimentos!'; // Texto de compartilhamento
+
+        if (navigator.share) {
+            // Caso o navegador suporte a API de compartilhamento
+            navigator.share({
+                title: 'Qual é a Música?',
+                text: shareText,
+                url: gameUrl
+            }).then(() => {
+                console.log('Jogo compartilhado com sucesso!');
+            }).catch((error) => {
+                console.log('Erro ao compartilhar:', error);
+            });
+        } else {
+            // Caso a API de compartilhamento não seja suportada, abre um link para compartilhamento manual
+            const shareLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + gameUrl)}`;
+            window.open(shareLink, '_blank');
+        }
+    }
         const questions = [
             {
-                question: "Qual é a música?",
+                question: "Qual é a música?",  // Adicionando a chave question
                 options: ["Wuthering Heights - Kate Bush", "Música B - Cantor B", "Música C - Cantor C"],
                 correctAnswer: 0,
-                musicLink: "https://radialistaedsonleite.github.io/quemCanta/WutheringHeights_KateBush.mp3"
+                musicLink: "https://radialistaedsonleite.github.io/quemCanta/WutheringHeights_KateBush.mp3",
+                image: "https://radialistaedsonleite.github.io/quemCanta/WutheringHeights_KateBush.jpg",
+                artistInfo: "<p><strong>Kate Bush</strong> é uma cantora, compositora e produtora britânica, conhecida por sua carreira única e inovadora na música. Seu estilo mistura elementos de rock, art pop e música clássica.</p>"
             },
             {
-                question: "Qual é o cantor?",
+                question: "Qual é a música?",  // Adicionando a chave question
                 options: ["Música A - Cantor A", "Tornero - I Santo California", "Música C - Cantor C"],
                 correctAnswer: 1,
-                musicLink: "https://radialistaedsonleite.github.io/quemCanta/Tornero_ISantoCalifornia.mp3"
+                musicLink: "https://radialistaedsonleite.github.io/quemCanta/Tornero_ISantoCalifornia.mp3",
+                image: "https://radialistaedsonleite.github.io/qualeamusica1inter/img/isantocalifornia.jpg",
+                artistInfo: "<p><strong>I Santo California</strong> é um grupo musical italiano que se destacou nos anos 70, famoso por sua balada 'Tornero', que alcançou grande sucesso em diversos países.</p>"
             },
             {
-                question: "Música e cantor?",
+                question: "Qual é a música?",  // Adicionando a chave question
                 options: ["Álbum A", "Álbum B", "Sailing - Rod Stewart"],
                 correctAnswer: 2,
-                musicLink: "https://radialistaedsonleite.github.io/quemCanta/Sailing_RodStewart.mp3"
+                musicLink: "https://radialistaedsonleite.github.io/quemCanta/Sailing_RodStewart.mp3",
+                image: "https://radialistaedsonleite.github.io/qualeamusica1inter/img/rodstewart.jpg",
+                artistInfo: "<p><strong>Rod Stewart</strong> é um cantor britânico, conhecido por sua voz rouca e seu estilo que mistura rock, pop e música soul. Ele é um dos artistas mais vendidos de todos os tempos.</p>"
             },
             {
-                question: "Que música é esta?",
+                question: "Qual é a música?",  // Adicionando a chave question
                 options: ["2010", "My Mistake - Pholhas", "2020"],
                 correctAnswer: 1,
-                musicLink: "https://radialistaedsonleite.github.io/quemCanta/mymistake_pholhas.mp3"
+                musicLink: "https://radialistaedsonleite.github.io/quemCanta/mymistake_pholhas.mp3",
+                image: "https://radialistaedsonleite.github.io/qualeamusica1inter/img/pholhas.jpg",
+                artistInfo: "<p><strong>Pholhas</strong> foi uma banda de rock brasileira, que se destacou nos anos 70 e 80, especialmente com o hit 'My Mistake', que ainda é lembrado até hoje pelos fãs do gênero.</p>"
             }
         ];
 
         let currentQuestionIndex = 0;
-        let score = 0;
+        let score = localStorage.getItem('score') ? parseInt(localStorage.getItem('score')) : 0;
 
-        // Atualizar a pergunta e opções
+        // Função para iniciar o quiz
+        function startQuiz() {
+            document.querySelector('h1').style.display = 'none';  // Esconde "Quuiz Musical"
+            document.querySelector('h2').style.display = 'none';  // Esconde "Teste seus conhecimentos sobre música!"
+            document.getElementById('start-btn').style.display = 'none';  // Esconde o botão de "Começar"
+            document.getElementById('question-container').style.display = 'block';  // Exibe a primeira questão
+            document.getElementById('status-container').style.display = 'flex';  // Exibe a pontuação
+            showQuestion();
+        }
+
         function showQuestion() {
             const question = questions[currentQuestionIndex];
             document.getElementById('question').textContent = question.question;
@@ -191,55 +248,109 @@
                 button.textContent = question.options[index];
             });
 
-            // Atualizar o link da música
-            document.getElementById('musicLink').href = question.musicLink;
-            document.getElementById('musicLink').textContent = "Escute a música aqui";
+            const audioPlayer = document.getElementById('audioPlayer');
+            audioPlayer.src = question.musicLink;
+            audioPlayer.play();
         }
+function showEndGameButtons() {
+    // Esconde os elementos do quiz
+    document.getElementById('question-container').style.display = 'none';  // Esconde a questão
+    document.getElementById('status-container').style.display = 'none';  // Esconde a pontuação
+    document.getElementById('audioPlayer').style.display = 'none';  // Esconde o player de áudio
 
-        // Checar resposta e atualizar pontuação
+    // Esconde o título e o subtítulo quando o jogo termina
+    document.querySelector('h1').style.display = 'none';  // Esconde "Quiz Musical"
+    document.querySelector('h2').style.display = 'none';  // Esconde "Teste seus conhecimentos sobre música!"
+
+    // Exibe os botões de finalização
+    document.getElementById('final-message').style.display = 'block';
+    showArtistInfo(); // Exibe as informações dos artistas ao final
+
+    // Exibe o score no final
+    const finalScore = document.createElement('p');
+    finalScore.textContent = `Sua pontuação final é: ${score}`;
+    finalScore.style.fontSize = '20px';
+    finalScore.style.fontWeight = 'bold';
+    finalScore.style.marginTop = '20px';
+    document.getElementById('final-message').insertBefore(finalScore, document.querySelector('.btn'));
+
+    showArtistInfo(); // Exibe as informações dos artistas ao final
+}
+        function showArtistInfo() {
+    // Preencher e exibir as informações dos artistas
+    const artistInfoContainer = document.getElementById('artist-info-container');
+    artistInfoContainer.innerHTML = questions.map(question => {
+        return `
+       <div class="artist-item">
+    <p><strong>Artista:</strong> ${question.options[question.correctAnswer]}</p>
+    <img src="${question.image}" alt="Imagem do Artista">
+    <p>${question.artistInfo}</p>
+</div>
+
+        `;
+    }).join('');  // Junta todos os elementos gerados para exibir de uma vez.
+
+    artistInfoContainer.style.display = 'block'; // Exibe as informações ao final
+}
+
+
         function checkAnswer(index) {
-            const correctAnswer = questions[currentQuestionIndex].correctAnswer;
-            const feedback = document.getElementById('feedback');
-            
-            if (index === correctAnswer) {
+            const audioPlayer = document.getElementById('audioPlayer');
+            audioPlayer.pause();
+
+            const question = questions[currentQuestionIndex];
+            const feedbackElement = document.getElementById('feedback');
+            const statusElement = document.getElementById('score');
+
+            if (index === question.correctAnswer) {
+                feedbackElement.textContent = 'Correto!';
+                feedbackElement.classList.remove('incorrect');
+                feedbackElement.classList.add('correct');
                 score += 10;
-                feedback.textContent = "Resposta correta!";
-                feedback.classList.add('correct');
-                feedback.classList.remove('incorrect');
             } else {
-                score -= 5;
-                feedback.textContent = "Resposta errada!";
-                feedback.classList.add('incorrect');
-                feedback.classList.remove('correct');
+                feedbackElement.textContent = 'Incorreto!';
+                feedbackElement.classList.remove('correct');
+                feedbackElement.classList.add('incorrect');
+               score -= 5;
             }
 
-            // Atualizar a pontuação
-            document.getElementById('score').textContent = "Pontuação: " + score;
+            localStorage.setItem('score', score);
+            statusElement.textContent = `Pontos: ${score}`;
 
-            // Exibir o próximo questionário
+            // Avançar para a próxima pergunta ou finalizar
             currentQuestionIndex++;
-
-            // Se terminar o quiz, mostrar o resultado final
-            if (currentQuestionIndex === questions.length) {
-                showFinalMessage();
-            } else {
+            if (currentQuestionIndex < questions.length) {
                 setTimeout(() => {
-                    feedback.textContent = "";
                     showQuestion();
-                }, 1000);
+                    feedbackElement.textContent = '';
+                }, 700);
+            } else {
+                setTimeout(showEndGameButtons, 1000);
             }
         }
+      document.addEventListener('DOMContentLoaded', function() {
+    const startBtn = document.getElementById('start-btn');
+    startBtn.addEventListener('click', startQuiz);
+});
+document.addEventListener("DOMContentLoaded", function () {
+    const totalBanners = 32;
+    let bannerindex = localStorage.getItem("bannerindex");
 
-        // Mostrar mensagem final
-        function showFinalMessage() {
-            document.getElementById('question-container').style.display = 'none';
-            document.getElementById('final-message').style.display = 'block';
-        }
+    // Se não houver um banner salvo, escolhe um aleatório e salva
+    if (!bannerindex) {
+        bannerindex = Math.floor(Math.random() * totalBanners) + 1;
+        localStorage.setItem("bannerindex", bannerindex);
+    }
 
-        // Iniciar o quiz
-        window.onload = function() {
-            showQuestion();
-        };
+    // Atualiza a imagem do banner
+    const bannerElement = document.querySelector("#banner img");
+    if (bannerElement) {
+        bannerElement.src = `https://radialistaedsonleite.github.io/propagandas/banner${bannerindex}.jpg`;
+    }
+});
+     
+     
+     
     </script>
 
 </body>
